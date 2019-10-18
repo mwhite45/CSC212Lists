@@ -65,9 +65,21 @@ public class FixedSizeList<T> extends ListADT<T> {
 	}
 
 	@Override
+	//ToDo
 	public void addIndex(int index, T value) {
+		//might still have a bug
 		// slide to the right
-		throw new TODOErr();
+		checkNotEmpty();
+		this.checkExclusiveIndex(index);
+		
+		this.addBack(null); // make room to shift everything
+		
+		for (int i = fill; i > index; i--) { //need to loop backwards to not have same value
+			this.array.setIndex(i, this.array.getIndex(i-1));
+		}
+
+		this.setIndex(index, value);
+		
 	}
 
 	@Override
@@ -85,9 +97,29 @@ public class FixedSizeList<T> extends ListADT<T> {
 	}
 
 	@Override
+	//ToDo
 	public T removeIndex(int index) {
 		// slide to the left
-		throw new TODOErr();
+		checkNotEmpty(); //need this?
+		this.checkExclusiveIndex(index);
+		
+		T deleting = this.array.getIndex(index);
+		
+		
+		//slide everything to the left
+		for (int i = index; i < fill-1; i++) {
+			
+			this.array.setIndex(i, this.array.getIndex(i+1));
+			
+		}
+		//replace last
+		this.array.setIndex(fill-1, null);
+		
+		fill--;
+		
+		return deleting;
+		
+		
 	}
 
 	@Override
