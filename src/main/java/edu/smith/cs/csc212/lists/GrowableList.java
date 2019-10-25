@@ -87,19 +87,32 @@ public class GrowableList<T> extends ListADT<T> {
 	/**
 	 * This private method is called when we need to make room in our GrowableList.
 	 */
-	private void resizeArray(int index) {
+	private void resizeArray() {
 		// TODO: use this where necessary (already called in addBack!)
-		ArrayWrapper<T> bigger = new ArrayWrapper<>(this.array.size()) * 2);
+		
+		ArrayWrapper<T> bigger = new ArrayWrapper<>(this.array.size() * 2);
 		for (int i =0; i < this.array.size(); i++) {
-			bigger.setIndex(index,  this.array.getIndex(i));
+			bigger.setIndex(i,  this.array.getIndex(i));
 		}
 		this.array = bigger;
 	}
 
 	@Override
 	public void addIndex(int index, T item) {
+		//throw new TODOErr();
+		
+		//do we need?
+		if (fill >= array.size()) {
+			this.resizeArray();
+		}
 		// slide to the right
-		throw new TODOErr();
+		this.checkInclusiveIndex(index);
+		
+		this.addBack(null); // make room to shift everything
+		for (int i = fill-1; i > index; i--) { //need to loop backwards to not have same value
+			this.array.setIndex(i, this.array.getIndex(i-1));
+			}
+		this.setIndex(index, item);
 	}
 
 	@Override

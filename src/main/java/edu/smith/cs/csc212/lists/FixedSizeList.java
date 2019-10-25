@@ -69,18 +69,17 @@ public class FixedSizeList<T> extends ListADT<T> {
 
 	@Override
 	//ToDo
-	public void addIndex(int whereTheyWantTheNewThing, T value) {
-		//might still have a bug
+	public void addIndex(int index, T value) {
 		// slide to the right
-		this.checkInclusiveIndex(whereTheyWantTheNewThing);
+		this.checkInclusiveIndex(index);
 		
 		this.addBack(null); // make room to shift everything
 		
-		for (int i = fill-1; i > whereTheyWantTheNewThing; i--) { //need to loop backwards to not have same value
+		for (int i = fill-1; i > index; i--) { //need to loop backwards to not have same value
 			this.array.setIndex(i, this.array.getIndex(i-1));
 		}
 
-		this.setIndex(whereTheyWantTheNewThing, value);
+		this.setIndex(index, value);
 		
 	}
 
