@@ -19,17 +19,31 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	Node<T> start;
 
 	@Override
-	public T removeFront() {
+	public T removeFront() {//all set
 		checkNotEmpty();
 		//throw new TODOErr();
-		return this.removeIndex(0);
+		Node<T> n = this.start;
+		T deletedFront = n.value;
+		this.start = n.next; //value after the front becomes the front so size decreases
+		
+		
+		return deletedFront;
+		
 		
 	}
 
 	@Override
 	public T removeBack() {
 		//throw new TODOErr();
-		return this.removeIndex(size()-1);
+		checkNotEmpty();
+		Node<T> n = this.start;
+		
+		while (n.next.next != null) { //while two ahead is not null
+			n = n.next; //n becomes next node (stops at C)
+		}
+		T deletedEnd = n.next.value;
+		n.next = null; //set D value to null which deletes it from list
+		return deletedEnd;
 		
 	}
 
@@ -37,6 +51,15 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	public T removeIndex(int index) {
 		//throw new TODOErr();
 		checkNotEmpty();
+		
+		Node<T> n = this.start;
+		for (int i = 0; i < index-1; i++) {
+			n = n.next;
+		}
+		
+		
+		
+		
 		
 		
 		
@@ -56,14 +79,12 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 			return;
 		} else {
 		
-		int counter = 0;
 		Node<T> n = this.start;
 		while (n.next != null) {
-			counter++;
 			n = n.next;
 		}
+		n.next = new Node<T>(item, null);
 		
-		this.addIndex(counter, item);
 		}
 		
 		
@@ -74,16 +95,11 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	public void addIndex(int index, T item) {
 		//throw new TODOErr();
 		Node<T> n = this.start;
-		for (int i = 0; i < index-1; i++) {
+		for (int i = 0; i < index-1; i++) { //index -1 correct bc want to stop at B if want to remove C. b.next = d
 			n = n.next;
 		}
 		Node<T> oldNode = n.next;
 		n.next = new Node<T>(item, oldNode);
-		
-		
-		
-		
-		
 		
 		
 	}
@@ -92,14 +108,21 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	public T getFront() {
 		checkNotEmpty();
 		//throw new TODOErr();
-		return this.getIndex(0);
+		Node<T> n = this.start;
+		T frontValue = this.start.value;
+		return frontValue;
 	}
 
 	@Override
 	public T getBack() {
 		checkNotEmpty();
 		//throw new TODOErr();
-		return this.getIndex(size()-1);
+		Node<T> n = this.start;
+		while (n.next != null) {
+			n = n.next; //stops at last value
+		}
+		T backValue = n.value;
+		return backValue;
 	}
 
 	@Override
