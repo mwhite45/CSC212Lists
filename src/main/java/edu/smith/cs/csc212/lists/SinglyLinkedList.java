@@ -37,6 +37,11 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 		//throw new TODOErr();
 		checkNotEmpty();
 		Node<T> n = this.start;
+		if (n.next == null) { //when 1 thing in list
+			T deleted = n.value;
+			n = null;
+			return deleted;
+		}
 		
 		while (n.next.next != null) { //while two ahead is not null
 			n = n.next; //n becomes next node (stops at C)
@@ -53,11 +58,17 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 		checkNotEmpty();
 		
 		Node<T> n = this.start;
-		for (int i = 0; i < index-1; i++) {
+		for (int i = 0; i < index-1; i++) { //
 			n = n.next;
 		}
-		
-		
+		if (n.next == null) {
+			T deletedOldNode = n.value;
+			n = null;
+			return deletedOldNode;
+		}
+		T deletedOldNode = n.next.value; //node to be deleted (C)
+		n.next = n.next.next;
+		return deletedOldNode;
 		
 		
 		
@@ -93,14 +104,18 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void addIndex(int index, T item) {
+		// checkBadIndexError()
 		//throw new TODOErr();
+		if (this.size()< index) {
+			throw new BadIndexError(index);
+		}
+		
 		Node<T> n = this.start;
-		for (int i = 0; i < index-1; i++) { //index -1 correct bc want to stop at B if want to remove C. b.next = d
+		for (int i = 0; i < index-1; i++) { 
 			n = n.next;
 		}
 		Node<T> oldNode = n.next;
 		n.next = new Node<T>(item, oldNode);
-		
 		
 	}
 
@@ -139,8 +154,19 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void setIndex(int index, T value) {
+		if (this.size()<= index) {
+			throw new BadIndexError(index);
+		}
 		checkNotEmpty();
-		throw new TODOErr();
+		//throw new TODOErr();
+		
+		Node<T> n = this.start;
+		for (int i = 0; i < index; i++) { 
+			n = n.next; //want n to be index we are setting
+		}
+		n.value = value;
+		
+		
 	}
 
 	@Override
