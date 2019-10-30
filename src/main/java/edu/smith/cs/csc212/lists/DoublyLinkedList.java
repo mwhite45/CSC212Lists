@@ -115,11 +115,13 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 		for (int i = 0; i < index-1; i++) { 
 			n = n.after;
 		}
+		
 		Node<T> nodeBeforeNew = n;
 		Node<T> oldNode = n.after;
 		n.after = new Node<T>(item);
 		n.after.after = oldNode;
 		n.after.before = nodeBeforeNew;
+
 		
 	}
 
