@@ -154,10 +154,10 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void setIndex(int index, T value) {
+		checkNotEmpty();
 		if (this.size()<= index) {
 			throw new BadIndexError(index);
 		}
-		checkNotEmpty();
 		//throw new TODOErr();
 		
 		Node<T> n = this.start;

@@ -1,6 +1,8 @@
 package edu.smith.cs.csc212.lists;
 
+
 import me.jjfoley.adt.ListADT;
+import me.jjfoley.adt.errors.BadIndexError;
 import me.jjfoley.adt.errors.TODOErr;
 
 /**
@@ -31,24 +33,63 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T removeFront() {
 		checkNotEmpty();
-		throw new TODOErr();
+		//throw new TODOErr();
+		Node<T> n = this.start;
+		T deletedFront = n.value;
+		this.start = n.after;
+		
+		
+		return deletedFront;
+		
 	}
 
 	@Override
 	public T removeBack() {
 		checkNotEmpty();
-		throw new TODOErr();
+		//throw new TODOErr();
+		
+		T deletedEnd = this.end.value;
+		this.end.before = this.end;
+		return deletedEnd;
 	}
 
 	@Override
 	public T removeIndex(int index) {
 		checkNotEmpty();
-		throw new TODOErr();
+		//throw new TODOErr();
+		
+		Node<T> n = this.start;
+		for (int i = 0; i < index-1; i++) { //
+			n = n.after;
+		}
+		if (n.after == null) { //1 item in list
+			T deletedOldNode = n.value;
+			n = null;
+			return deletedOldNode;
+		}
+			
+		T deletedOldNode = n.after.value; //node to be deleted (C)
+		n.after = n.after.after;
+		if (n.after != null) {
+			n.after.before = n;
+		}
+		return deletedOldNode;
 	}
 
 	@Override
 	public void addFront(T item) {
-		throw new TODOErr();
+		//throw new TODOErr();
+		if (this.size() == 0) {
+			this.start = new Node<T>(item);
+		}
+		
+		Node<T> oldNode = this.start;
+		this.start = new Node<T>(item);
+		this.start.after = oldNode;
+		this.start.after.before = this.start;
+		
+		
+		
 	}
 
 	@Override
@@ -64,37 +105,84 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	}
 
 	@Override
-	public void addIndex(int index, T item) {
-		throw new TODOErr();
+	public void addIndex(int index, T item) { //check linking didnt link first one to second.
+		//throw new TODOErr();
+		if (this.size()< index) {
+			throw new BadIndexError(index);
+		}
+		
+		Node<T> n = this.start;
+		for (int i = 0; i < index-1; i++) { 
+			n = n.after;
+		}
+		Node<T> nodeBeforeNew = n;
+		Node<T> oldNode = n.after;
+		n.after = new Node<T>(item);
+		n.after.after = oldNode;
+		n.after.before = nodeBeforeNew;
+		
 	}
 
 	@Override
 	public T getFront() {
-		throw new TODOErr();
+		//throw new TODOErr();
+		checkNotEmpty();
+		
+		T frontValue = this.start.value;
+		return frontValue;
 	}
 
 	@Override
 	public T getBack() {
-		throw new TODOErr();
+		//throw new TODOErr();
+		checkNotEmpty();
+		T backValue = this.end.value;
+		return backValue;
+		
+		
 	}
 	
 	@Override
 	public T getIndex(int index) {
-		throw new TODOErr();
+		//throw new TODOErr();
+		int at = 0;
+		for (Node<T> n = this.start; n != null; n = n.after) {
+			if (at++ == index) {
+				return n.value;
+			}
+		}
+		throw new BadIndexError(index);
 	}
 	
 	public void setIndex(int index, T value) {
-		throw new TODOErr();
+		//throw new TODOErr();
+		checkNotEmpty();
+		
+		if (this.size()<= index) {
+			throw new BadIndexError(index);
+		}
+		
+		Node<T> n = this.start;
+		for (int i = 0; i < index; i++) { 
+			n = n.after; //want n to be index we are setting
+		}
+		n.value = value;
 	}
-
+	
 	@Override
 	public int size() {
-		throw new TODOErr();
+		//throw new TODOErr();
+		int count = 0;
+		for (Node<T> n = this.start; n != null; n = n.after) {
+			count++;
+		}
+		return count;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		throw new TODOErr();
+		//throw new TODOErr();
+		return this.start == null;
 	}
 	
 	/**
