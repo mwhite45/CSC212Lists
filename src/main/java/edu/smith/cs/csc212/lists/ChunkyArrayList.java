@@ -39,35 +39,68 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 	@Override
 	public T removeFront() {
 		//throw new TODOErr();
+		checkNotEmpty();
+		
 		T frontValue = this.chunks.getFront().getFront();
 		chunks.getFront().removeFront();
+		// if chunk empty, delete thqt too //need this on remove index and remove back
+		if (chunks.getFront().isEmpty()) {
+			chunks.removeFront();
+		}
 		return frontValue;
 	}
 
 	@Override
 	public T removeBack() {
 		//throw new TODOErr();
+		checkNotEmpty();
 		T backValue = this.chunks.getBack().getBack();
 		chunks.getBack().removeBack();
+		if (chunks.getBack().isEmpty()) {
+			chunks.removeBack();
+		}
 		return backValue;
 	}
 
 	@Override
 	public T removeIndex(int index) {
-		throw new TODOErr();
+		//throw new TODOErr();
+		int chunkIndex = 0;
+		int start = 0;
+		//check bad index here 
+		checkNotEmpty();
+		
+		for (FixedSizeList<T> chunk : this.chunks) {
+			// calculate bounds of this chunk.
+			int end = start + chunk.size();
+			
+			// Check whether the index should be in this chunk:
+			if (start <= index && index < end) {
+				chunk.removeIndex(index - start);
+			}
+			
+			// update bounds of next chunk.
+			start = end;
+			chunkIndex++;
+		}
+		throw new BadIndexError(index);
 	}
 
 	@Override
 	public void addFront(T item) {
-		//throw new TODOErr();
-		this.addIndex(0, item);
-		
+		if (chunks.isEmpty() || chunks.getFront().isFull()) {
+			chunks.addFront(makeChunk());
+		}
+		chunks.getFront().addFront(item);
 	}
 
 	@Override
 	public void addBack(T item) {
 		//throw new TODOErr();
-		this.addIndex(this.size(), item);
+		if (chunks.isEmpty() || chunks.getBack().isFull()) {
+			chunks.addBack(makeChunk());
+		}
+		chunks.getBack().addBack(item);
 	}
 
 	@Override
