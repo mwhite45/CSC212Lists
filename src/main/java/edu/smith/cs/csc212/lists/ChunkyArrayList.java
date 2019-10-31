@@ -38,12 +38,18 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 
 	@Override
 	public T removeFront() {
-		throw new TODOErr();
+		//throw new TODOErr();
+		T frontValue = this.chunks.getFront().getFront();
+		chunks.getFront().removeFront();
+		return frontValue;
 	}
 
 	@Override
 	public T removeBack() {
-		throw new TODOErr();
+		//throw new TODOErr();
+		T backValue = this.chunks.getBack().getBack();
+		chunks.getBack().removeBack();
+		return backValue;
 	}
 
 	@Override
@@ -53,12 +59,15 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 
 	@Override
 	public void addFront(T item) {
-		throw new TODOErr();
+		//throw new TODOErr();
+		this.chunks.getFront().addFront(item);
+		
 	}
 
 	@Override
 	public void addBack(T item) {
-		throw new TODOErr();
+		//throw new TODOErr();
+		this.chunks.getBack().addBack(item);
 	}
 
 	@Override
@@ -77,10 +86,12 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 				if (chunk.isFull()) {
 					// check can roll to next
 					// or need a new chunk
-					throw new TODOErr();
+					//throw new TODOErr();
+					start = end;
 				} else {
 					// put right in this chunk, there's space.
-					throw new TODOErr();
+					//throw new TODOErr();
+					chunk.addIndex(index, item);
 				}	
 				// upon adding, return.
 				// return;
@@ -127,7 +138,26 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 	
 	@Override
 	public void setIndex(int index, T value) {
-		throw new TODOErr();
+		//throw new TODOErr();
+		//will this work?
+		//this.chunks.getIndex(index).setIndex(index, value);
+		int start = 0;
+		
+		if (this.size()< index) {
+			throw new BadIndexError(index);
+		}
+		for (FixedSizeList<T> chunk : this.chunks) {
+			int end = start + chunk.size();
+			
+			//Check whether index should be in this chunk
+			if (start <= index && index < end) {
+				chunk.setIndex(index - start, value); 
+			}
+			
+			//update bounds of next chunk
+			start = end;
+		}
+		//bad index here
 	}
 
 	@Override
