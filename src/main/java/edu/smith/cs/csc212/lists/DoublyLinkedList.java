@@ -81,6 +81,7 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 		//throw new TODOErr();
 		if (this.size() == 0) {
 			this.start = new Node<T>(item);
+			return; //edit
 		}
 		
 		Node<T> oldNode = this.start;
@@ -107,7 +108,7 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	@Override
 	public void addIndex(int index, T item) { //check linking didnt link first one to second.
 		//throw new TODOErr();
-		if (this.size()< index) {
+		if (this.size() < index) {
 			throw new BadIndexError(index);
 		}
 		
@@ -160,7 +161,7 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 		//throw new TODOErr();
 		checkNotEmpty();
 		
-		if (this.size()<= index) {
+		if (this.size()<= index || index < 0) {
 			throw new BadIndexError(index);
 		}
 		

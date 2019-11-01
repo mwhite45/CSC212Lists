@@ -76,13 +76,19 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 			
 			// Check whether the index should be in this chunk:
 			if (start <= index && index < end) {
-				chunk.removeIndex(index - start);
+				T removedItem = chunk.removeIndex(index - start);
+				if (chunk.isEmpty()) {
+					chunks.removeIndex(chunkIndex);
+				}
+				return removedItem;
 			}
 			
 			// update bounds of next chunk.
 			start = end;
 			chunkIndex++;
 		}
+		
+		
 		throw new BadIndexError(index);
 	}
 
@@ -100,7 +106,16 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 		if (chunks.isEmpty() || chunks.getBack().isFull()) {
 			chunks.addBack(makeChunk());
 		}
-		chunks.getBack().addBack(item);
+		//this.addIndex(size(), item);
+		FixedSizeList<T> lastChunk = chunks.getBack();
+		if (lastChunk.isFull()) {
+			FixedSizeList<T> newChunk = makeChunk();
+			newChunk.addFront(item);
+			chunks.addBack(newChunk);
+		} else {
+			lastChunk.addBack(item);
+		}
+		
 	}
 
 	@Override
@@ -108,9 +123,16 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 		// THIS IS THE HARDEST METHOD IN CHUNKY-ARRAY-LIST.
 		// DO IT LAST.
 		
+		
 		int chunkIndex = 0;
 		int start = 0;
 		//check bad index here 
+		
+		if (index == size()) {
+			this.addBack(item);
+			return;
+		}
+		
 		
 		if (this.chunks.isEmpty()) {
 			this.chunks.addFront(this.makeChunk());
@@ -119,9 +141,13 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 		for (FixedSizeList<T> chunk : this.chunks) {
 			// calculate bounds of this chunk.
 			int end = start + chunk.size();
+			//System.out.println("end " + String.valueOf(end));
+			//System.out.println("size " + String.valueOf(chunk.size()));
+			
 			
 			// Check whether the index should be in this chunk:
 			if (start <= index && index < end) {
+				//System.out.println("start " + String.valueOf(start));
 				if (chunk.isFull()) {
 					// check can roll to next
 					// or need a new chunk
@@ -129,9 +155,11 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 					//make new chunk
 					FixedSizeList<T> newChunk = this.makeChunk();
 					//loop
-					for (int i = index - start; i < chunkSize; i++) {
+					for (int i = index - start; i < end - start; i++) {
 						newChunk.addBack(chunk.getIndex(i));
-						chunk.setIndex(i, null);
+					}
+					for (int i = end - start - 1; i >= index - start; i--) {
+						chunk.removeIndex(i);
 					}
 					chunk.addIndex(index - start, item);
 					chunks.addIndex(chunkIndex + 1, newChunk);
@@ -149,7 +177,7 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 			start = end;
 			chunkIndex++;
 		}
-		throw new BadIndexError(index);
+		throw new BadIndexError(index); // problem passing 
 	}
 	
 	@Override
@@ -189,9 +217,10 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 		//throw new TODOErr();
 		//will this work?
 		//this.chunks.getIndex(index).setIndex(index, value);
+		checkNotEmpty();
 		int start = 0;
 		
-		if (this.size()< index) {
+		if (this.size()<= index || index < 0) {
 			throw new BadIndexError(index);
 		}
 		for (FixedSizeList<T> chunk : this.chunks) {
