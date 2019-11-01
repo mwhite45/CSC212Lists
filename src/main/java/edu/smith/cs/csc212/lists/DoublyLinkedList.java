@@ -80,7 +80,7 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	public void addFront(T item) {
 		//throw new TODOErr();
 		if (this.size() == 0) {
-			this.start = new Node<T>(item);
+			this.start = this.end = new Node<T>(item);
 			return; //edit
 		}
 		
@@ -108,8 +108,24 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	@Override
 	public void addIndex(int index, T item) { //check linking didnt link first one to second.
 		//throw new TODOErr();
-		if (this.size() < index) {
+		
+		if (this.size() < index || index < 0) {
 			throw new BadIndexError(index);
+		}
+		
+		if (this.size() == 0) {//added this could be wrong
+			start = end = new Node<T>(item);
+			return;
+		}
+		
+		if (index == 0) {
+			this.addFront(item);
+			return;
+		}
+		
+		if (index == size()- 1) {
+			this.addBack(item);
+			return;
 		}
 		
 		Node<T> n = this.start;
