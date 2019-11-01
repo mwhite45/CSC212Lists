@@ -70,7 +70,7 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 		}
 		
 		Node<T> n = this.start;
-		for (int i = 0; i < index-1; i++) { //
+		for (int i = 0; i < index-1; i++) { 
 			n = n.after;
 		}
 		if (n.after == null) { //1 item in list
