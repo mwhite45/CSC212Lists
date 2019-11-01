@@ -53,6 +53,10 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	public T removeIndex(int index) {
 		checkNotEmpty();
 		
+		if (size() == 1) {
+			return this.removeFront();
+		}
+		
 		Node<T> n = this.start;
 		for (int i = 0; i < index-1; i++) { //
 			n = n.next;
@@ -101,6 +105,11 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	public void addIndex(int index, T item) {
 		if (this.size()< index || index < 0) {
 			throw new BadIndexError(index);
+		}
+		
+		if (index == 0) {
+			this.addFront(item);
+			return;
 		}
 		
 		Node<T> n = this.start;
