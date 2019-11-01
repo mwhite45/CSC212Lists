@@ -99,9 +99,6 @@ public class GrowableList<T> extends ListADT<T> {
 
 	@Override
 	public void addIndex(int index, T item) {
-		//throw new TODOErr();
-		
-		//do we need?
 		if (fill >= array.size()) {
 			this.resizeArray();
 		}

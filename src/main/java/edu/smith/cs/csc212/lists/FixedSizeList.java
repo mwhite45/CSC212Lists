@@ -68,7 +68,6 @@ public class FixedSizeList<T> extends ListADT<T> {
 	}
 
 	@Override
-	//ToDo
 	public void addIndex(int index, T value) {
 		// slide to the right
 		this.checkInclusiveIndex(index);
@@ -100,7 +99,6 @@ public class FixedSizeList<T> extends ListADT<T> {
 	}
 
 	@Override
-	//ToDo
 	public T removeIndex(int index) {
 		// slide to the left
 		checkNotEmpty(); //need this?

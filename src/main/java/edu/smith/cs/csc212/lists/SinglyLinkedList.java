@@ -21,7 +21,6 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T removeFront() {//all set
 		checkNotEmpty();
-		//throw new TODOErr();
 		Node<T> n = this.start;
 		T deletedFront = n.value;
 		this.start = n.next; //value after the front becomes the front so size decreases
@@ -34,13 +33,11 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public T removeBack() {
-		//throw new TODOErr();
 		checkNotEmpty();
+		
 		Node<T> n = this.start;
 		if (n.next == null) { //when 1 thing in list
-			T deleted = n.value;
-			n = null;
-			return deleted;
+			return this.removeFront();
 		}
 		
 		while (n.next.next != null) { //while two ahead is not null
@@ -54,7 +51,6 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public T removeIndex(int index) {
-		//throw new TODOErr();
 		checkNotEmpty();
 		
 		Node<T> n = this.start;
@@ -83,7 +79,6 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void addBack(T item) {
-		//throw new TODOErr();
 		//looping
 		if (this.start == null) {
 			this.addFront(item);
@@ -104,9 +99,7 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void addIndex(int index, T item) {
-		// checkBadIndexError()
-		//throw new TODOErr();
-		if (this.size()< index) {
+		if (this.size()< index || index < 0) {
 			throw new BadIndexError(index);
 		}
 		
@@ -122,7 +115,6 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T getFront() {
 		checkNotEmpty();
-		//throw new TODOErr();
 		Node<T> n = this.start;
 		T frontValue = this.start.value;
 		return frontValue;
@@ -131,7 +123,6 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T getBack() {
 		checkNotEmpty();
-		//throw new TODOErr();
 		Node<T> n = this.start;
 		while (n.next != null) {
 			n = n.next; //stops at last value
@@ -155,10 +146,9 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public void setIndex(int index, T value) {
 		checkNotEmpty();
-		if (this.size()<= index) {
+		if (this.size()<= index || index < 0) {
 			throw new BadIndexError(index);
 		}
-		//throw new TODOErr();
 		
 		Node<T> n = this.start;
 		for (int i = 0; i < index; i++) { 

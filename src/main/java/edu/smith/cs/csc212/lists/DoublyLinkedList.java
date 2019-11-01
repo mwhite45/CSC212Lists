@@ -33,7 +33,6 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T removeFront() {
 		checkNotEmpty();
-		//throw new TODOErr();
 		Node<T> n = this.start;
 		T deletedFront = n.value;
 		this.start = n.after;
@@ -46,7 +45,6 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T removeBack() {
 		checkNotEmpty();
-		//throw new TODOErr();
 		//not deleting item from back size stays the same.
 		//if 1 thing left 
 		if (size() == 1) {
@@ -64,7 +62,6 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T removeIndex(int index) {
 		checkNotEmpty();
-		//throw new TODOErr();
 		if (index == 0) {
 			return removeFront();
 		}
@@ -89,7 +86,6 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void addFront(T item) {
-		//throw new TODOErr();
 		if (this.size() == 0) {
 			start = end = new Node<T>(item);
 			return; //edit
@@ -118,7 +114,6 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void addIndex(int index, T item) { //check linking didnt link first one to second.
-		//throw new TODOErr();
 		
 		if (this.size() < index || index < 0) {
 			throw new BadIndexError(index);
@@ -155,7 +150,6 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public T getFront() {
-		//throw new TODOErr();
 		checkNotEmpty();
 		
 		T frontValue = this.start.value;
@@ -164,7 +158,6 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public T getBack() {
-		//throw new TODOErr();
 		checkNotEmpty();
 		T backValue = this.end.value;
 		return backValue;
@@ -174,7 +167,6 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	
 	@Override
 	public T getIndex(int index) {
-		//throw new TODOErr();
 		int at = 0;
 		for (Node<T> n = this.start; n != null; n = n.after) {
 			if (at++ == index) {
@@ -185,7 +177,6 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	}
 	
 	public void setIndex(int index, T value) {
-		//throw new TODOErr();
 		checkNotEmpty();
 		
 		if (this.size()<= index || index < 0) {
@@ -201,7 +192,6 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	
 	@Override
 	public int size() {
-		//throw new TODOErr();
 		int count = 0;
 		for (Node<T> n = this.start; n != null; n = n.after) {
 			count++;
@@ -211,7 +201,6 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public boolean isEmpty() {
-		//throw new TODOErr();
 		return this.start == null;
 	}
 	

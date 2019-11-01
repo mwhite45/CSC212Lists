@@ -38,7 +38,6 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 
 	@Override
 	public T removeFront() {
-		//throw new TODOErr();
 		checkNotEmpty();
 		
 		T frontValue = this.chunks.getFront().getFront();
@@ -52,7 +51,6 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 
 	@Override
 	public T removeBack() {
-		//throw new TODOErr();
 		checkNotEmpty();
 		T backValue = this.chunks.getBack().getBack();
 		chunks.getBack().removeBack();
@@ -64,7 +62,6 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 
 	@Override
 	public T removeIndex(int index) {
-		//throw new TODOErr();
 		int chunkIndex = 0;
 		int start = 0;
 		//check bad index here 
@@ -102,7 +99,6 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 
 	@Override
 	public void addBack(T item) {
-		//throw new TODOErr();
 		if (chunks.isEmpty() || chunks.getBack().isFull()) {
 			chunks.addBack(makeChunk());
 		}
@@ -151,7 +147,6 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 				if (chunk.isFull()) {
 					// check can roll to next
 					// or need a new chunk
-					//throw new TODOErr();
 					//make new chunk
 					FixedSizeList<T> newChunk = this.makeChunk();
 					//loop
@@ -165,7 +160,6 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 					chunks.addIndex(chunkIndex + 1, newChunk);
 				} else {
 					// put right in this chunk, there's space.
-					//throw new TODOErr();
 					chunk.addIndex(index - start, item);
 					
 				}	
@@ -214,7 +208,6 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 	
 	@Override
 	public void setIndex(int index, T value) {
-		//throw new TODOErr();
 		//will this work?
 		//this.chunks.getIndex(index).setIndex(index, value);
 		checkNotEmpty();
