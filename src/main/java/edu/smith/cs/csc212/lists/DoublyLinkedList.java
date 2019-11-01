@@ -47,9 +47,17 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	public T removeBack() {
 		checkNotEmpty();
 		//throw new TODOErr();
+		//not deleting item from back size stays the same.
+		//if 1 thing left 
+		if (size() == 1) {
+			T deletedEnd = start.value;
+			start = end = null;
+			return deletedEnd;
+		}
 		
 		T deletedEnd = this.end.value;
-		this.end.before = this.end;
+		this.end = this.end.before;
+		this.end.after = null;
 		return deletedEnd;
 	}
 
@@ -57,6 +65,9 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	public T removeIndex(int index) {
 		checkNotEmpty();
 		//throw new TODOErr();
+		if (index == 0) {
+			return removeFront();
+		}
 		
 		Node<T> n = this.start;
 		for (int i = 0; i < index-1; i++) { //
@@ -80,16 +91,16 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	public void addFront(T item) {
 		//throw new TODOErr();
 		if (this.size() == 0) {
-			this.start = this.end = new Node<T>(item);
+			start = end = new Node<T>(item);
 			return; //edit
-		}
+		} else {
 		
 		Node<T> oldNode = this.start;
 		this.start = new Node<T>(item);
 		this.start.after = oldNode;
 		this.start.after.before = this.start;
 		
-		
+		}
 		
 	}
 
@@ -113,17 +124,17 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 			throw new BadIndexError(index);
 		}
 		
-		if (this.size() == 0) {//added this could be wrong
+		if (this.size() == 0) {//added this could be wrong - prob not
 			start = end = new Node<T>(item);
 			return;
 		}
 		
 		if (index == 0) {
-			this.addFront(item);
+			this.addFront(item); //needs to be in terms of node
 			return;
 		}
 		
-		if (index == size()- 1) {
+		if (index == size()) {
 			this.addBack(item);
 			return;
 		}
